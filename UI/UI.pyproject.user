@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 9.0.1, 2024-04-30T08:10:55. -->
+<!-- Written by QtCreator 9.0.1, 2024-04-30T15:01:59. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -144,12 +144,10 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">widget.py</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.C:/Users/Jung-WeiLiao/OneDrive - Durham Magneto Optics Ltd/Document/Qt/StageSettlingAnalyser/UI/widget.py</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/Jung-WeiLiao/OneDrive - Durham Magneto Optics Ltd/Document/Qt/StageSettlingAnalyser/UI/widget.py</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Script">C:\Users\Jung-WeiLiao\OneDrive - Durham Magneto Optics Ltd\Document\Qt\StageSettlingAnalyser\UI\widget.py</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jung-WeiLiao/OneDrive - Durham Magneto Optics Ltd/Document/Qt/StageSettlingAnalyser/UI</value>
    </valuemap>
    <value type="qlonglong" key="ProjectExplorer.Target.RunConfigurationCount">1</value>
   </valuemap>

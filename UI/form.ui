@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Widget</string>
+   <string>Stage settling analyser 2024</string>
   </property>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
@@ -70,9 +70,9 @@
     <widget class="QGroupBox" name="groupBox_2">
      <property name="geometry">
       <rect>
-       <x>840</x>
+       <x>860</x>
        <y>10</y>
-       <width>431</width>
+       <width>411</width>
        <height>571</height>
       </rect>
      </property>
@@ -83,33 +83,36 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>20</y>
+        <y>10</y>
         <width>401</width>
         <height>61</height>
        </rect>
       </property>
       <property name="text">
-       <string>Report movement history when the setting time is larger or equal to</string>
+       <string>Report movement history with the setting time larger than or equal to</string>
       </property>
       <property name="wordWrap">
        <bool>false</bool>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit">
+     <widget class="QLineEdit" name="lineEditTimeForAnalysing">
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>70</y>
+        <y>60</y>
         <width>71</width>
         <height>20</height>
        </rect>
+      </property>
+      <property name="text">
+       <string>2.5</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_2">
       <property name="geometry">
        <rect>
         <x>90</x>
-        <y>50</y>
+        <y>40</y>
         <width>101</width>
         <height>61</height>
        </rect>
@@ -121,12 +124,12 @@
        <bool>false</bool>
       </property>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>10</x>
+        <x>20</x>
         <y>110</y>
-        <width>401</width>
+        <width>361</width>
         <height>451</height>
        </rect>
       </property>
@@ -139,8 +142,21 @@
        </item>
       </layout>
      </widget>
+     <widget class="QPushButton" name="pushButtonStartAnalysing">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>60</y>
+        <width>141</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Start analysing!</string>
+      </property>
+     </widget>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>16</x>
