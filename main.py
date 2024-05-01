@@ -22,6 +22,9 @@ class Widget(QWidget):
         self.ui.pushButtonShowResults.clicked.connect(self.startProcessing)
         #Start analysing
         self.ui.pushButtonStartAnalysing.clicked.connect(self.analyser)
+
+        #Initialise the plot
+        self.plotInitialiser()
     
     def openResultTXTFile(self):
         #Record the txt file location
@@ -50,7 +53,7 @@ class Widget(QWidget):
         self.thread.finished.connect(self.thread.deleteLater)
 
         #Update the plot
-        self.newProcessing.signalUpdatePlotNormalSmallX.connect(self.qtSlot_UpdatePlot)
+        self.newProcessing.signalUpdatePlot.connect(self.qtSlot_UpdatePlot)
 
         #Set up the UI during the processing
         self.ui.pushButtonShowResults.setEnabled(False)
@@ -87,7 +90,7 @@ class Widget(QWidget):
         )
 
         #Update the analysis result
-        self.newProcessingForAnalyser.signalUpdateAnalysisResultNormalSmallX.connect(self.qtSlot_UpdateAnalysisResult)
+        self.newProcessingForAnalyser.signalUpdateAnalysisResult.connect(self.qtSlot_UpdateAnalysisResult)
         #Start the thread
         self.threadForAnalyser.start()
         #Set UI during analysis
@@ -98,30 +101,102 @@ class Widget(QWidget):
     
     @Slot()
     def qtSlot_UpdatePlot(self):
+        #Normal Small X
+        #Set up the plot
         self.ui.gvSmallNormalX.clear()
-        self.ui.gvSmallNormalX.setTitle(
-            "X small"
-        )
+        
         self.ui.gvSmallNormalX.plot(self.newProcessing.npArrayNormalSmallXFinalPositionX, 
                                     self.newProcessing.npArrayNormalSmallXSettingTimems, 
+                                    pen=None, 
+                                    symbol='o')
+        #Normal Big X
+        self.ui.gvBigNormalX.clear()
+        self.ui.gvBigNormalX.setTitle(
+            "X Big"
+        )
+        self.ui.gvBigNormalX.plot(self.newProcessing.npArrayNormalBigXFinalPositionX, 
+                                    self.newProcessing.npArrayNormalBigXSettingTimems, 
+                                    pen=None, 
+                                    symbol='o')
+        #Normal Small Y
+        self.ui.gvSmallNormalY.clear()
+        self.ui.gvSmallNormalY.setTitle(
+            "Y small"
+        )
+        self.ui.gvSmallNormalY.plot(self.newProcessing.npArrayNormalSmallYFinalPositionY, 
+                                    self.newProcessing.npArrayNormalSmallYSettingTimems, 
+                                    pen=None, 
+                                    symbol='o')
+        #Normal Big Y
+        self.ui.gvBigNormalY.clear()
+        self.ui.gvBigNormalY.setTitle(
+            "Y Big"
+        )
+        self.ui.gvBigNormalY.plot(self.newProcessing.npArrayNormalBigYFinalPositionY, 
+                                    self.newProcessing.npArrayNormalBigYSettingTimems, 
                                     pen=None, 
                                     symbol='o')
         
     @Slot()
     def qtSlot_UpdateAnalysisResult(self):
         #Get the number of movements
-        intTotalNumbersOfMovements = len(self.newProcessingForAnalyser.listNormallSmallXLongSettling)
+        intTotalNumbersOfMovementsNormalSmallX = len(self.newProcessingForAnalyser.listNormalSmallXLongSettling)
+        intTotalNumbersOfMovementsNormalBigX = len(self.newProcessingForAnalyser.listNormalBigXLongSettling)
+        intTotalNumbersOfMovementsNormalSmallY = len(self.newProcessingForAnalyser.listNormalSmallYLongSettling)
+        intTotalNumbersOfMovementsNormalBigY = len(self.newProcessingForAnalyser.listNormalBigYLongSettling)
         #Clear the previous messages
-        self.ui.textEditNormalX.clear()
+        self.ui.textEditNormalSmallX.clear()
+        self.ui.textEditNormalBigX.clear()
+        self.ui.textEditNormalSmallY.clear()
+        self.ui.textEditNormalBigY.clear()
         #Udate
-        self.ui.textEditNormalX.insertPlainText("There are {} movements.\n".format(intTotalNumbersOfMovements))
-        for i in range(intTotalNumbersOfMovements):
-            self.ui.textEditNormalX.insertPlainText("Movement {}:\n".format(i))
-            self.ui.textEditNormalX.insertPlainText("From \n ({} mm, {} mm) \n to \n({} mm, {} mm) \n it took {} ms.\n\n".format(self.newProcessingForAnalyser.listNormallSmallXLongSettling[i][0],
-                                                                                                                  self.newProcessingForAnalyser.listNormallSmallXLongSettling[i][1],
-                                                                                                                  self.newProcessingForAnalyser.listNormallSmallXLongSettling[i][2],
-                                                                                                                  self.newProcessingForAnalyser.listNormallSmallXLongSettling[i][3],
-                                                                                                                  self.newProcessingForAnalyser.listNormallSmallXLongSettling[i][4]))
+        #Normal Small X
+        self.ui.textEditNormalSmallX.insertPlainText("There are {} small movements in X.\n".format(intTotalNumbersOfMovementsNormalSmallX))
+        for i in range(intTotalNumbersOfMovementsNormalSmallX):
+            self.ui.textEditNormalSmallX.insertPlainText("Movement {}:\n".format(i))
+            self.ui.textEditNormalSmallX.insertPlainText("From \n ({} mm, {} mm) \n to \n({} mm, {} mm) \n it took {} ms.\n\n".format(self.newProcessingForAnalyser.listNormalSmallXLongSettling[i][0],
+                                                                                                                  self.newProcessingForAnalyser.listNormalSmallXLongSettling[i][1],
+                                                                                                                  self.newProcessingForAnalyser.listNormalSmallXLongSettling[i][2],
+                                                                                                                  self.newProcessingForAnalyser.listNormalSmallXLongSettling[i][3],
+                                                                                                                  self.newProcessingForAnalyser.listNormalSmallXLongSettling[i][4]))
+        #Normal Big X
+        self.ui.textEditNormalBigX.insertPlainText("There are {} big movements in X.\n".format(intTotalNumbersOfMovementsNormalBigX))
+        for i in range(intTotalNumbersOfMovementsNormalBigX):
+            self.ui.textEditNormalBigX.insertPlainText("Movement {}:\n".format(i))
+            self.ui.textEditNormalBigX.insertPlainText("From \n ({} mm, {} mm) \n to \n({} mm, {} mm) \n it took {} ms.\n\n".format(self.newProcessingForAnalyser.listNormalBigXLongSettling[i][0],
+                                                                                                                  self.newProcessingForAnalyser.listNormalBigXLongSettling[i][1],
+                                                                                                                  self.newProcessingForAnalyser.listNormalBigXLongSettling[i][2],
+                                                                                                                  self.newProcessingForAnalyser.listNormalBigXLongSettling[i][3],
+                                                                                                                  self.newProcessingForAnalyser.listNormalBigXLongSettling[i][4]))
+        #Normal Small Y
+        self.ui.textEditNormalSmallY.insertPlainText("There are {} small movements in Y.\n".format(intTotalNumbersOfMovementsNormalSmallY))
+        for i in range(intTotalNumbersOfMovementsNormalSmallY):
+            self.ui.textEditNormalSmallY.insertPlainText("Movement {}:\n".format(i))
+            self.ui.textEditNormalSmallY.insertPlainText("From \n ({} mm, {} mm) \n to \n({} mm, {} mm) \n it took {} ms.\n\n".format(self.newProcessingForAnalyser.listNormalSmallYLongSettling[i][0],
+                                                                                                                  self.newProcessingForAnalyser.listNormalSmallYLongSettling[i][1],
+                                                                                                                  self.newProcessingForAnalyser.listNormalSmallYLongSettling[i][2],
+                                                                                                                  self.newProcessingForAnalyser.listNormalSmallYLongSettling[i][3],
+                                                                                                                  self.newProcessingForAnalyser.listNormalSmallYLongSettling[i][4]))
+        #Normal Big Y
+        self.ui.textEditNormalBigY.insertPlainText("There are {} big movements in Y.\n".format(intTotalNumbersOfMovementsNormalBigY))
+        for i in range(intTotalNumbersOfMovementsNormalBigY):
+            self.ui.textEditNormalBigY.insertPlainText("Movement {}:\n".format(i))
+            self.ui.textEditNormalBigY.insertPlainText("From \n ({} mm, {} mm) \n to \n({} mm, {} mm) \n it took {} ms.\n\n".format(self.newProcessingForAnalyser.listNormalBigYLongSettling[i][0],
+                                                                                                                  self.newProcessingForAnalyser.listNormalBigYLongSettling[i][1],
+                                                                                                                  self.newProcessingForAnalyser.listNormalBigYLongSettling[i][2],
+                                                                                                                  self.newProcessingForAnalyser.listNormalBigYLongSettling[i][3],
+                                                                                                                  self.newProcessingForAnalyser.listNormalBigYLongSettling[i][4]))
+    def plotInitialiser(self):
+        #Normal X small
+        self.ui.gvSmallNormalX.setTitle(
+            "X small"
+        )
+        self.ui.gvSmallNormalX.setLabel(axis='left', text='Settling time (ms)')
+        self.ui.gvSmallNormalX.setLabel(axis='bottom', text='Final X position (mm)')
+        self.ui.gvSmallNormalX.showAxis('right')
+        self.ui.gvSmallNormalX.showAxis('top')
+        self.ui.gvSmallNormalX.showGrid(True, True)
+        
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
