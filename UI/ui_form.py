@@ -26,9 +26,9 @@ class Ui_Widget(object):
         if not Widget.objectName():
             Widget.setObjectName(u"Widget")
         Widget.setEnabled(True)
-        Widget.resize(1920, 1080)
-        Widget.setMinimumSize(QSize(1920, 1080))
-        Widget.setMaximumSize(QSize(1920, 1080))
+        Widget.resize(1600, 900)
+        Widget.setMinimumSize(QSize(1600, 900))
+        Widget.setMaximumSize(QSize(1600, 900))
         self.groupBox = QGroupBox(Widget)
         self.groupBox.setObjectName(u"groupBox")
         self.groupBox.setGeometry(QRect(50, 10, 681, 80))
@@ -50,26 +50,26 @@ class Ui_Widget(object):
 
         self.tabWidget = QTabWidget(Widget)
         self.tabWidget.setObjectName(u"tabWidget")
-        self.tabWidget.setGeometry(QRect(50, 120, 1291, 631))
+        self.tabWidget.setGeometry(QRect(50, 120, 1531, 771))
         self.tabNormal = QWidget()
         self.tabNormal.setObjectName(u"tabNormal")
         self.groupBox_2 = QGroupBox(self.tabNormal)
         self.groupBox_2.setObjectName(u"groupBox_2")
-        self.groupBox_2.setGeometry(QRect(890, 10, 391, 571))
-        self.widget = QWidget(self.groupBox_2)
-        self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(10, 30, 371, 531))
-        self.verticalLayout_2 = QVBoxLayout(self.widget)
+        self.groupBox_2.setGeometry(QRect(1080, 10, 441, 711))
+        self.layoutWidget1 = QWidget(self.groupBox_2)
+        self.layoutWidget1.setObjectName(u"layoutWidget1")
+        self.layoutWidget1.setGeometry(QRect(10, 30, 421, 661))
+        self.verticalLayout_2 = QVBoxLayout(self.layoutWidget1)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_4 = QHBoxLayout()
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.textEditNormalSmallX = QTextEdit(self.widget)
+        self.textEditNormalSmallX = QTextEdit(self.layoutWidget1)
         self.textEditNormalSmallX.setObjectName(u"textEditNormalSmallX")
 
         self.horizontalLayout_4.addWidget(self.textEditNormalSmallX)
 
-        self.textEditNormalBigX = QTextEdit(self.widget)
+        self.textEditNormalBigX = QTextEdit(self.layoutWidget1)
         self.textEditNormalBigX.setObjectName(u"textEditNormalBigX")
 
         self.horizontalLayout_4.addWidget(self.textEditNormalBigX)
@@ -79,12 +79,12 @@ class Ui_Widget(object):
 
         self.horizontalLayout_5 = QHBoxLayout()
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
-        self.textEditNormalSmallY = QTextEdit(self.widget)
+        self.textEditNormalSmallY = QTextEdit(self.layoutWidget1)
         self.textEditNormalSmallY.setObjectName(u"textEditNormalSmallY")
 
         self.horizontalLayout_5.addWidget(self.textEditNormalSmallY)
 
-        self.textEditNormalBigY = QTextEdit(self.widget)
+        self.textEditNormalBigY = QTextEdit(self.layoutWidget1)
         self.textEditNormalBigY.setObjectName(u"textEditNormalBigY")
 
         self.horizontalLayout_5.addWidget(self.textEditNormalBigY)
@@ -92,20 +92,20 @@ class Ui_Widget(object):
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_5)
 
-        self.layoutWidget1 = QWidget(self.tabNormal)
-        self.layoutWidget1.setObjectName(u"layoutWidget1")
-        self.layoutWidget1.setGeometry(QRect(16, 13, 861, 581))
-        self.verticalLayout = QVBoxLayout(self.layoutWidget1)
+        self.layoutWidget2 = QWidget(self.tabNormal)
+        self.layoutWidget2.setObjectName(u"layoutWidget2")
+        self.layoutWidget2.setGeometry(QRect(16, 13, 1041, 711))
+        self.verticalLayout = QVBoxLayout(self.layoutWidget2)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.gvSmallNormalX = PlotWidget(self.layoutWidget1)
+        self.gvSmallNormalX = PlotWidget(self.layoutWidget2)
         self.gvSmallNormalX.setObjectName(u"gvSmallNormalX")
 
         self.horizontalLayout_2.addWidget(self.gvSmallNormalX)
 
-        self.gvBigNormalX = PlotWidget(self.layoutWidget1)
+        self.gvBigNormalX = PlotWidget(self.layoutWidget2)
         self.gvBigNormalX.setObjectName(u"gvBigNormalX")
 
         self.horizontalLayout_2.addWidget(self.gvBigNormalX)
@@ -115,12 +115,12 @@ class Ui_Widget(object):
 
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.gvSmallNormalY = PlotWidget(self.layoutWidget1)
+        self.gvSmallNormalY = PlotWidget(self.layoutWidget2)
         self.gvSmallNormalY.setObjectName(u"gvSmallNormalY")
 
         self.horizontalLayout_3.addWidget(self.gvSmallNormalY)
 
-        self.gvBigNormalY = PlotWidget(self.layoutWidget1)
+        self.gvBigNormalY = PlotWidget(self.layoutWidget2)
         self.gvBigNormalY.setObjectName(u"gvBigNormalY")
 
         self.horizontalLayout_3.addWidget(self.gvBigNormalY)

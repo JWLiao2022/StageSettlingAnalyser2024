@@ -14,47 +14,47 @@ class clsProcessing(QThread):
         super(clsProcessing, self).__init__(parent)
         #Copy the user input information over to the local variables
         self.input_file_path = input_file_path
-        #Initialise two lists and two np arrays for each movement
+        #Initialise lists
         #Normal Small X
         self.listNormalSmallXFinalPositionX = []
         self.listNormalSmallXSettingTimems = []
-        self.npArrayNormalSmallXFinalPositionX = np.zeros(1, dtype=np.float16)
-        self.npArrayNormalSmallXSettingTimems = np.zeros(1, dtype=np.float16)
+        self.listNormalSmallXTotalTimems = []
+        self.listNormalSmallXCruisTimems = []
         #Normal Big X
         self.listNormalBigXFinalPositionX = []
         self.listNormalBigXSettingTimems = []
-        self.npArrayNormalBigXFinalPositionX = np.zeros(1, dtype=np.float16)
-        self.npArrayNormalBigXSettingTimems = np.zeros(1, dtype=np.float16)
+        self.listNormalBigXTotalTimems = []
+        self.listNormalBigXCruisTimems = []
         #Normal Small Y
         self.listNormalSmallYFinalPositionY = []
         self.listNormalSmallYSettingTimems = []
-        self.npArrayNormalSmallYFinalPositionY = np.zeros(1, dtype=np.float16)
-        self.npArrayNormalSmallYSettingTimems = np.zeros(1, dtype=np.float16)
+        self.listNormalSmallYTotalTimems = []
+        self.listNormalSmallYCruisTimems = []
         #Normal Big Y
         self.listNormalBigYFinalPositionY = []
         self.listNormalBigYSettingTimems = []
-        self.npArrayNormalBigYFinalPositionY = np.zeros(1, dtype=np.float16)
-        self.npArrayNormalBigYSettingTimems = np.zeros(1, dtype=np.float16)
+        self.listNormalBigYTotalTimems = []
+        self.listNormalBigYCruisTimems = []
         #Fastest Small X
         self.listFastestSmallXFinalPositionX = []
         self.listFastestSmallXSettingTimems = []
-        self.npArrayFastestSmallXFinalPositionX = np.zeros(1, dtype=np.float16)
-        self.npArrayFastestSmallXSettingTimems = np.zeros(1, dtype=np.float16)
+        self.listFastestSmallXTotalTimems = []
+        self.listFastestSmallXCruisTimems = []
         #Fastest Big X
         self.listFastestBigXFinalPositionX = []
         self.listFastestBigXSettingTimems = []
-        self.npArrayFastestBigXFinalPositionX = np.zeros(1, dtype=np.float16)
-        self.npArrayFastestBigXSettingTimems = np.zeros(1, dtype=np.float16)
+        self.listFastestBigXTotalTimems = []
+        self.listFastestBigXCruisTimems = []
         #Fastest Small Y
         self.listFastestSmallYFinalPositionY = []
         self.listFastestSmallYSettingTimems = []
-        self.npArrayFastestSmallYFinalPositionY = np.zeros(1, dtype=np.float16)
-        self.npArrayFastestSmallYSettingTimems = np.zeros(1, dtype=np.float16)
+        self.listFastestSmallYTotalTimems = []
+        self.listFastestSmallYCruisTimems = []
         #Fastest Big Y
         self.listFastestBigYFinalPositionY = []
         self.listFastestBigYSettingTimems = []
-        self.npArrayFastestBigYFinalPositionY = np.zeros(1, dtype=np.float16)
-        self.npArrayFastestBigYSettingTimems = np.zeros(1, dtype=np.float16)
+        self.listFastestBigYTotalTimems = []
+        self.listFastestBigYCruisTimems = []
         #Z
         self.listNormalZFinalPositionX = []
         self.listNormalZFinalPositionY = []
@@ -62,12 +62,7 @@ class clsProcessing(QThread):
         self.listFastestZFinalPositionX = []
         self.listFastestZFinalPositionY = []
         self.listFastestZSettingTimems = []
-        self.npArrayNormalZFinalPositionX = np.zeros(1, dtype=np.float16)
-        self.npArrayNormalZFinalPositionY = np.zeros(1, dtype=np.float16)
-        self.npArrayNormalZSettingTimems = np.zeros(1, dtype=np.float16)
-        self.npArrayFastestZFinalPositionX = np.zeros(1, dtype=np.float16)
-        self.npArrayFastestZFinalPositionY = np.zeros(1, dtype=np.float16)
-        self.npArrayFastestZSettingTimems = np.zeros(1, dtype=np.float16)
+
 
         #List for the settling time analysis
         #Normal Small X
@@ -98,54 +93,38 @@ class clsProcessing(QThread):
         for line in data:
             #Normal Small X movements
             if (line[-1] == "1") and (line[-2] == "False") and (line[-3] == "True"):
-                self.listNormalSmallXFinalPositionX.append(line[0])
-                self.listNormalSmallXSettingTimems.append(line[-5])
+                self.listNormalSmallXFinalPositionX.append(np.float16(line[0]))
+                self.listNormalSmallXSettingTimems.append(np.float16(line[4]))
+                self.listNormalSmallXTotalTimems.append(np.float16(line[2]))
+                self.listNormalSmallXCruisTimems.append(np.float16(line[3]))
             #Normal Big X
             elif (line[-1] == "1") and (line[-2] == "True") and (line[-3] == "True"):
-                self.listNormalBigXFinalPositionX.append(line[0])
-                self.listNormalBigXSettingTimems.append(line[-5])
+                self.listNormalBigXFinalPositionX.append(np.float16(line[0]))
+                self.listNormalBigXSettingTimems.append(np.float16(line[4]))
             #Normal Small Y
             elif (line[-1] == "1") and (line[-2] == "False") and (line[-3] == "False"):
-                self.listNormalSmallYFinalPositionY.append(line[0])
-                self.listNormalSmallYSettingTimems.append(line[-5])
+                self.listNormalSmallYFinalPositionY.append(np.float16(line[0]))
+                self.listNormalSmallYSettingTimems.append(np.float16(line[4]))
             #Normal Big Y
             elif (line[-1] == "1") and (line[-2] == "True") and (line[-3] == "False"):
-                self.listNormalBigYFinalPositionY.append(line[0])
-                self.listNormalBigYSettingTimems.append(line[-5])
+                self.listNormalBigYFinalPositionY.append(np.float16(line[0]))
+                self.listNormalBigYSettingTimems.append(np.float16(line[4]))
             #Fastest Small X
             if (line[-1] == "0") and (line[-2] == "False") and (line[-3] == "True"):
-                self.listFastestSmallXFinalPositionX.append(line[0])
-                self.listFastestSmallXSettingTimems.append(line[-5])
+                self.listFastestSmallXFinalPositionX.append(np.float16(line[0]))
+                self.listFastestSmallXSettingTimems.append(np.float16(line[4]))
             #Fastest Big X
             elif (line[-1] == "0") and (line[-2] == "True") and (line[-3] == "True"):
-                self.listFastestBigXFinalPositionX.append(line[0])
-                self.listFastestBigXSettingTimems.append(line[-5])
+                self.listFastestBigXFinalPositionX.append(np.float16(line[0]))
+                self.listFastestBigXSettingTimems.append(np.float16(line[4]))
             #Fastest Small Y
             elif (line[-1] == "0") and (line[-2] == "False") and (line[-3] == "False"):
-                self.listFastestSmallYFinalPositionY.append(line[0])
-                self.listFastestSmallYSettingTimems.append(line[-5])
+                self.listFastestSmallYFinalPositionY.append(np.float16(line[0]))
+                self.listFastestSmallYSettingTimems.append(np.float16(line[4]))
             #Fastest big Y
             elif (line[-1] == "0") and (line[-2] == "True") and (line[-3] == "False"):
-                self.listFastestBigYFinalPositionY.append(line[0])
-                self.listFastestBigYSettingTimems.append(line[-5])
-        
-        #Have the list back the np array
-        self.npArrayNormalSmallXFinalPositionX = np.array(self.listNormalSmallXFinalPositionX, dtype=np.float32)
-        self.npArrayNormalSmallXSettingTimems = np.array(self.listNormalSmallXSettingTimems, dtype=np.float32)
-        self.npArrayNormalBigXFinalPositionX = np.array(self.listNormalBigXFinalPositionX, dtype=np.float32)
-        self.npArrayNormalBigXSettingTimems = np.array(self.listNormalBigXSettingTimems, dtype=np.float32)
-        self.npArrayNormalSmallYFinalPositionY = np.array(self.listNormalSmallYFinalPositionY, dtype=np.float32)
-        self.npArrayNormalSmallYSettingTimems = np.array(self.listNormalSmallYSettingTimems, dtype=np.float32)
-        self.npArrayNormalBigYFinalPositionY = np.array(self.listNormalBigYFinalPositionY, dtype=np.float32)
-        self.npArrayNormalBigYSettingTimems = np.array(self.listNormalBigYSettingTimems, dtype=np.float32)
-        self.npArrayFastestSmallXFinalPositionX = np.array(self.listFastestSmallXFinalPositionX, dtype=np.float32)
-        self.npArrayFastestSmallXSettingTimems = np.array(self.listFastestSmallXSettingTimems, dtype=np.float32)
-        self.npArrayFastestBigXFinalPositionX = np.array(self.listFastestBigXFinalPositionX, dtype=np.float32)
-        self.npArrayFastestBigXSettingTimems = np.array(self.listFastestBigXSettingTimems, dtype=np.float32)
-        self.npArrayFastestSmallYFinalPositionY = np.array(self.listFastestSmallYFinalPositionY, dtype=np.float32)
-        self.npArrayFastestSmallYSettingTimems = np.array(self.listFastestSmallYSettingTimems, dtype=np.float32)
-        self.npArrayFastestBigYFinalPositionY = np.array(self.listFastestBigYFinalPositionY, dtype=np.float32)
-        self.npArrayFastestBigYSettingTimems = np.array(self.listFastestBigYSettingTimems, dtype=np.float32)
+                self.listFastestBigYFinalPositionY.append(np.float16(line[0]))
+                self.listFastestBigYSettingTimems.append(np.float16(line[4]))
 
         #Set ready for plotting signal
         self.signalUpdatePlot.emit()

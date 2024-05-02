@@ -7,6 +7,9 @@ from UI.ui_form import Ui_Widget
 from Processing.Processing import clsProcessing
 
 import numpy as np
+import statistics
+
+import pyqtgraph as pg
 
 class Widget(QWidget):
     def __init__(self, parent=None):
@@ -104,9 +107,20 @@ class Widget(QWidget):
         #Normal Small X
         #Set up the plot
         self.ui.gvSmallNormalX.clear()
-        
-        self.ui.gvSmallNormalX.plot(self.newProcessing.npArrayNormalSmallXFinalPositionX, 
-                                    self.newProcessing.npArrayNormalSmallXSettingTimems, 
+        floatMeanSettleTimeNormalSmallX = statistics.fmean(self.newProcessing.listNormalSmallXSettingTimems)
+        floatMaxSettleTimeNormalSmallX = max(self.newProcessing.listNormalSmallXSettingTimems)
+        titleNormalSmallX = ("Total moves: {} \n".format(len(self.newProcessing.listFastestBigXFinalPositionX)) +
+                              "Mean settle (ms): %.2f \n" %(floatMeanSettleTimeNormalSmallX) +
+                              "Max settle (ms): %.2f \n" %(floatMaxSettleTimeNormalSmallX) +
+                              "Mean move (ms): %.2f \n" %(statistics.fmean(self.newProcessing.listNormalSmallXTotalTimems)) + 
+                              "Max move (ms): %.2f" %(max(self.newProcessing.listNormalSmallXTotalTimems)))
+        #self.ui.gvSmallNormalX.setTitle(titleNormalSmallX)
+        self.text = pg.TextItem(titleNormalSmallX, color=(0, 0, 0), fill=(255, 255, 255))
+        self.ui.gvSmallNormalX.addItem(self.text)
+        self.text.setPos(25,3580)
+        #self.ui.gvSmallNormalX.plotItem.addLegend()
+        self.ui.gvSmallNormalX.plot(self.newProcessing.listNormalSmallXFinalPositionX, 
+                                    self.newProcessing.listNormalSmallXSettingTimems, 
                                     pen=None, 
                                     symbol='o')
         #Normal Big X
@@ -114,8 +128,8 @@ class Widget(QWidget):
         self.ui.gvBigNormalX.setTitle(
             "X Big"
         )
-        self.ui.gvBigNormalX.plot(self.newProcessing.npArrayNormalBigXFinalPositionX, 
-                                    self.newProcessing.npArrayNormalBigXSettingTimems, 
+        self.ui.gvBigNormalX.plot(self.newProcessing.listNormalBigXFinalPositionX, 
+                                    self.newProcessing.listNormalBigXSettingTimems, 
                                     pen=None, 
                                     symbol='o')
         #Normal Small Y
@@ -123,8 +137,8 @@ class Widget(QWidget):
         self.ui.gvSmallNormalY.setTitle(
             "Y small"
         )
-        self.ui.gvSmallNormalY.plot(self.newProcessing.npArrayNormalSmallYFinalPositionY, 
-                                    self.newProcessing.npArrayNormalSmallYSettingTimems, 
+        self.ui.gvSmallNormalY.plot(self.newProcessing.listNormalSmallYFinalPositionY, 
+                                    self.newProcessing.listNormalSmallYSettingTimems, 
                                     pen=None, 
                                     symbol='o')
         #Normal Big Y
@@ -132,8 +146,8 @@ class Widget(QWidget):
         self.ui.gvBigNormalY.setTitle(
             "Y Big"
         )
-        self.ui.gvBigNormalY.plot(self.newProcessing.npArrayNormalBigYFinalPositionY, 
-                                    self.newProcessing.npArrayNormalBigYSettingTimems, 
+        self.ui.gvBigNormalY.plot(self.newProcessing.listNormalBigYFinalPositionY, 
+                                    self.newProcessing.listNormalBigYSettingTimems, 
                                     pen=None, 
                                     symbol='o')
         
@@ -188,14 +202,19 @@ class Widget(QWidget):
                                                                                                                   self.newProcessingForAnalyser.listNormalBigYLongSettling[i][4]))
     def plotInitialiser(self):
         #Normal X small
-        self.ui.gvSmallNormalX.setTitle(
-            "X small"
-        )
+        self.ui.gvSmallNormalX.setTitle("X small")
         self.ui.gvSmallNormalX.setLabel(axis='left', text='Settling time (ms)')
         self.ui.gvSmallNormalX.setLabel(axis='bottom', text='Final X position (mm)')
         self.ui.gvSmallNormalX.showAxis('right')
         self.ui.gvSmallNormalX.showAxis('top')
+        self.ui.gvSmallNormalX.getAxis('right').enableAutoSIPrefix(enable=False)
+        self.ui.gvSmallNormalX.getAxis('right').setStyle(tickLength=0, showValues=False)
+        self.ui.gvSmallNormalX.getAxis('top').enableAutoSIPrefix(enable=False)
+        self.ui.gvSmallNormalX.getAxis('top').setStyle(tickLength=0, showValues=False)
         self.ui.gvSmallNormalX.showGrid(True, True)
+        self.ui.gvSmallNormalX.setXRange(-99.5, 99.5)
+        self.ui.gvSmallNormalX.setYRange(-2, 3480)
+
         
 
 if __name__ == "__main__":
