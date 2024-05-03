@@ -76,7 +76,7 @@
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Normal&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="tabNormal">
     <attribute name="title">
@@ -164,6 +164,83 @@
     <attribute name="title">
      <string>Fastest X and Y</string>
     </attribute>
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="geometry">
+      <rect>
+       <x>1080</x>
+       <y>10</y>
+       <width>441</width>
+       <height>711</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Analysis results</string>
+     </property>
+     <widget class="QWidget" name="layoutWidget_2">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>421</width>
+        <height>661</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <item>
+          <widget class="QTextEdit" name="textEditFastestSmallX"/>
+         </item>
+         <item>
+          <widget class="QTextEdit" name="textEditFastestBigX"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <item>
+          <widget class="QTextEdit" name="textEditFastestSmallY"/>
+         </item>
+         <item>
+          <widget class="QTextEdit" name="textEditFastestBigY"/>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="layoutWidget_3">
+     <property name="geometry">
+      <rect>
+       <x>16</x>
+       <y>13</y>
+       <width>1041</width>
+       <height>711</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_4">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_8">
+        <item>
+         <widget class="PlotWidget" name="gvSmallFastestX"/>
+        </item>
+        <item>
+         <widget class="PlotWidget" name="gvBigFastestX"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_9">
+        <item>
+         <widget class="PlotWidget" name="gvSmallFastestY"/>
+        </item>
+        <item>
+         <widget class="PlotWidget" name="gvBigFastestY"/>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
    </widget>
    <widget class="QWidget" name="tab_3">
     <attribute name="title">

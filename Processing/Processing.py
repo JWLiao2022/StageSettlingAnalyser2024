@@ -14,7 +14,7 @@ class clsProcessing(QThread):
         super(clsProcessing, self).__init__(parent)
         #Copy the user input information over to the local variables
         self.input_file_path = input_file_path
-        #Initialise lists
+        #Initialise parameters
         #Normal Small X
         self.listNormalSmallXFinalPositionX = []
         self.listNormalSmallXSettingTimems = []
@@ -101,30 +101,44 @@ class clsProcessing(QThread):
             elif (line[-1] == "1") and (line[-2] == "True") and (line[-3] == "True"):
                 self.listNormalBigXFinalPositionX.append(np.float16(line[0]))
                 self.listNormalBigXSettingTimems.append(np.float16(line[4]))
+                self.listNormalBigXTotalTimems.append(np.float16(line[2]))
+                self.listNormalBigXCruisTimems.append(np.float16(line[3]))
             #Normal Small Y
             elif (line[-1] == "1") and (line[-2] == "False") and (line[-3] == "False"):
                 self.listNormalSmallYFinalPositionY.append(np.float16(line[0]))
                 self.listNormalSmallYSettingTimems.append(np.float16(line[4]))
+                self.listNormalSmallYTotalTimems.append(np.float16(line[2]))
+                self.listNormalSmallYCruisTimems.append(np.float16(line[3]))
             #Normal Big Y
             elif (line[-1] == "1") and (line[-2] == "True") and (line[-3] == "False"):
                 self.listNormalBigYFinalPositionY.append(np.float16(line[0]))
                 self.listNormalBigYSettingTimems.append(np.float16(line[4]))
+                self.listNormalBigYTotalTimems.append(np.float16(line[2]))
+                self.listNormalBigYCruisTimems.append(np.float16(line[3]))
             #Fastest Small X
             if (line[-1] == "0") and (line[-2] == "False") and (line[-3] == "True"):
                 self.listFastestSmallXFinalPositionX.append(np.float16(line[0]))
                 self.listFastestSmallXSettingTimems.append(np.float16(line[4]))
+                self.listFastestSmallXTotalTimems.append(np.float16(line[2]))
+                self.listFastestSmallXCruisTimems.append(np.float16(line[3]))
             #Fastest Big X
             elif (line[-1] == "0") and (line[-2] == "True") and (line[-3] == "True"):
                 self.listFastestBigXFinalPositionX.append(np.float16(line[0]))
                 self.listFastestBigXSettingTimems.append(np.float16(line[4]))
+                self.listFastestBigXTotalTimems.append(np.float16(line[2]))
+                self.listFastestBigXCruisTimems.append(np.float16(line[3]))
             #Fastest Small Y
             elif (line[-1] == "0") and (line[-2] == "False") and (line[-3] == "False"):
                 self.listFastestSmallYFinalPositionY.append(np.float16(line[0]))
                 self.listFastestSmallYSettingTimems.append(np.float16(line[4]))
+                self.listFastestSmallYTotalTimems.append(np.float16(line[2]))
+                self.listFastestSmallYCruisTimems.append(np.float16(line[3]))
             #Fastest big Y
             elif (line[-1] == "0") and (line[-2] == "True") and (line[-3] == "False"):
                 self.listFastestBigYFinalPositionY.append(np.float16(line[0]))
                 self.listFastestBigYSettingTimems.append(np.float16(line[4]))
+                self.listFastestBigYTotalTimems.append(np.float16(line[2]))
+                self.listFastestBigYCruisTimems.append(np.float16(line[3]))
 
         #Set ready for plotting signal
         self.signalUpdatePlot.emit()
@@ -164,9 +178,25 @@ class clsProcessing(QThread):
                     if np.float16(line[-5]) >= self.thresholdTimems:
                         self.listNormalBigYLongSettling.append([data[count-1][0], data[count-1][1], line[0], line[1], line[-5]])
                 #Fastest Small X
+                elif (line[-1] == "0") and (line[-2] == "False") and (line[-3] == "True"):
+                    #Check the settling time
+                    if np.float16(line[-5]) >= self.thresholdTimems:
+                        self.listFastestSmallXLongSettling.append([data[count-1][0], data[count-1][1], line[0], line[1], line[-5]])
                 #Fastest Big X
+                elif (line[-1] == "0") and (line[-2] == "True") and (line[-3] == "True"):
+                    #Check the settling time
+                    if np.float16(line[-5]) >= self.thresholdTimems:
+                        self.listFastestBigXLongSettling.append([data[count-1][0], data[count-1][1], line[0], line[1], line[-5]])
                 #Fastest Small Y
+                elif (line[-1] == "0") and (line[-2] == "False") and (line[-3] == "False"):
+                    #Check the settling time
+                    if np.float16(line[-5]) >= self.thresholdTimems:
+                        self.listFastestSmallYLongSettling.append([data[count-1][0], data[count-1][1], line[0], line[1], line[-5]])
                 #Fastest Big Y
+                elif (line[-1] == "0") and (line[-2] == "True") and (line[-3] == "False"):
+                    #Check the settling time
+                    if np.float16(line[-5]) >= self.thresholdTimems:
+                        self.listFastestBigYLongSettling.append([data[count-1][0], data[count-1][1], line[0], line[1], line[-5]])
 
         #Set the signal for updating the analysing result
         self.signalUpdateAnalysisResult.emit()
