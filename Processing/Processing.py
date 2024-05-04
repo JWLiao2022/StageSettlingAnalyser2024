@@ -58,10 +58,10 @@ class clsProcessing(QThread):
         #Z
         self.listNormalZFinalPositionX = []
         self.listNormalZFinalPositionY = []
-        self.listNormalZSettingTimems = []
+        self.listNormalZTotalTimems = []
         self.listFastestZFinalPositionX = []
         self.listFastestZFinalPositionY = []
-        self.listFastestZSettingTimems = []
+        self.listFastestZTotalTimems = []
 
 
         #List for the settling time analysis
@@ -82,8 +82,8 @@ class clsProcessing(QThread):
         #Fastest Big Y
         self.listFastestBigYLongSettling = []
         #Z
-        self.listNormalZLongSettling = []
-        self.listFastestZLongSettling = []
+        self.listNormalZLongTotal = []
+        self.listFastestZLongTotal = []
         #User input threshold settling time
         self.thresholdTimems = thresholdTimeMS
 
@@ -105,13 +105,13 @@ class clsProcessing(QThread):
                 self.listNormalBigXCruisTimems.append(np.float16(line[3]))
             #Normal Small Y
             elif (line[-1] == "1") and (line[-2] == "False") and (line[-3] == "False"):
-                self.listNormalSmallYFinalPositionY.append(np.float16(line[0]))
+                self.listNormalSmallYFinalPositionY.append(np.float16(line[1]))
                 self.listNormalSmallYSettingTimems.append(np.float16(line[4]))
                 self.listNormalSmallYTotalTimems.append(np.float16(line[2]))
                 self.listNormalSmallYCruisTimems.append(np.float16(line[3]))
             #Normal Big Y
             elif (line[-1] == "1") and (line[-2] == "True") and (line[-3] == "False"):
-                self.listNormalBigYFinalPositionY.append(np.float16(line[0]))
+                self.listNormalBigYFinalPositionY.append(np.float16(line[1]))
                 self.listNormalBigYSettingTimems.append(np.float16(line[4]))
                 self.listNormalBigYTotalTimems.append(np.float16(line[2]))
                 self.listNormalBigYCruisTimems.append(np.float16(line[3]))
@@ -129,16 +129,26 @@ class clsProcessing(QThread):
                 self.listFastestBigXCruisTimems.append(np.float16(line[3]))
             #Fastest Small Y
             elif (line[-1] == "0") and (line[-2] == "False") and (line[-3] == "False"):
-                self.listFastestSmallYFinalPositionY.append(np.float16(line[0]))
+                self.listFastestSmallYFinalPositionY.append(np.float16(line[1]))
                 self.listFastestSmallYSettingTimems.append(np.float16(line[4]))
                 self.listFastestSmallYTotalTimems.append(np.float16(line[2]))
                 self.listFastestSmallYCruisTimems.append(np.float16(line[3]))
             #Fastest big Y
             elif (line[-1] == "0") and (line[-2] == "True") and (line[-3] == "False"):
-                self.listFastestBigYFinalPositionY.append(np.float16(line[0]))
+                self.listFastestBigYFinalPositionY.append(np.float16(line[1]))
                 self.listFastestBigYSettingTimems.append(np.float16(line[4]))
                 self.listFastestBigYTotalTimems.append(np.float16(line[2]))
                 self.listFastestBigYCruisTimems.append(np.float16(line[3]))
+            #Normal Z
+            if (line[-1] == "1"):
+                self.listNormalZFinalPositionX.append(np.float16(line[0]))
+                self.listNormalZFinalPositionY.append(np.float16(line[1]))
+                self.listNormalZTotalTimems.append(np.float16(line[5]))
+            #Fastest Z
+            elif (line[-1] == "0"):
+                self.listFastestZFinalPositionX.append(np.float16(line[0]))
+                self.listFastestZFinalPositionY.append(np.float16(line[1]))
+                self.listFastestZTotalTimems.append(np.float16(line[5]))
 
         #Set ready for plotting signal
         self.signalUpdatePlot.emit()
@@ -197,6 +207,21 @@ class clsProcessing(QThread):
                     #Check the settling time
                     if np.float16(line[-5]) >= self.thresholdTimems:
                         self.listFastestBigYLongSettling.append([data[count-1][0], data[count-1][1], line[0], line[1], line[-5]])
+            #Check Z
+            if count == 1:
+                #The first movement is always normal small y move from (0mm, 0mm) position
+                #Check the setting time
+                if np.float16(line[-4]) >= self.thresholdTimems:
+                    self.listNormalZLongTotal.append(['0', '0', line[0], line[1], line[-4]])
+            else:
+                #Normal Z
+                if (line[-1] == "1"):
+                    if np.float16(line[-4]) >= self.thresholdTimems:
+                        self.listNormalZLongTotal.append([data[count-1][0], data[count-1][1], line[0], line[1], line[-4]])
+                #Fastest Z
+                elif (line[-1] == "0"):
+                    if np.float16(line[-4]) >= self.thresholdTimems:
+                        self.listFastestZLongTotal.append([data[count-1][0], data[count-1][1], line[0], line[1], line[-4]])
 
         #Set the signal for updating the analysing result
         self.signalUpdateAnalysisResult.emit()

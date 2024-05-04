@@ -24,6 +24,10 @@ class Widget(QWidget):
         #Initialise the UI
         self.ui = Ui_Widget()
         self.ui.setupUi(self)
+        #Disable the plot, save, and analyse button before user input a file
+        self.ui.pushButtonShowResults.setEnabled(False)
+        self.ui.pushButtonSavePlots.setEnabled(False)
+        self.ui.pushButtonStartAnalysing.setEnabled(False)
         #Find the stage settling results file
         self.ui.pushButtonFindInputFile.clicked.connect(self.openResultTXTFile)
         #Start processing
@@ -35,6 +39,9 @@ class Widget(QWidget):
 
         #Initialise the plot
         self.plotInitialiser()
+
+        #Set the tab 0 to appear first
+        self.ui.tabWidget.setCurrentIndex(0)
     
     def openResultTXTFile(self):
         #Record the txt file location
@@ -45,6 +52,9 @@ class Widget(QWidget):
         self.ui.lineEditInputFileLocation.setText(local_txt_file_path)
         self.input_file_path = local_txt_file_path
         self.input_folder_path = os.path.dirname(os.path.abspath(local_txt_file_path))
+        #Enable the plot button
+        if (self.input_file_path != ""):
+            self.ui.pushButtonShowResults.setEnabled(True)
     
     def saveResultPlotFile(self):
         #Record the output file name
@@ -116,8 +126,35 @@ class Widget(QWidget):
         exporter = pyqtgraph.exporters.ImageExporter(self.ui.gvBigFastestY.plotItem)
         exporter.parameters()['width'] = 1020
         exporter.export(final_output_file_path)
-        #Z and X
-        #Z and Y
+        #Normal Z and X
+        #Create the full file path
+        fileName = systemName + "-NormalZX.png"
+        final_output_file_path = os.path.join(output_folder_path, fileName)
+        #Export the plot
+        exporter = pyqtgraph.exporters.ImageExporter(self.ui.gvNormalZX.plotItem)
+        exporter.parameters()['width'] = 1020
+        exporter.export(final_output_file_path)
+        #Normal Z and Y
+        fileName = systemName + "-NormalZY.png"
+        final_output_file_path = os.path.join(output_folder_path, fileName)
+        #Export the plot
+        exporter = pyqtgraph.exporters.ImageExporter(self.ui.gvNormalZY.plotItem)
+        exporter.parameters()['width'] = 1020
+        exporter.export(final_output_file_path)
+        #Fastest Z and X
+        fileName = systemName + "-FastestZX.png"
+        final_output_file_path = os.path.join(output_folder_path, fileName)
+        #Export the plot
+        exporter = pyqtgraph.exporters.ImageExporter(self.ui.gvFastestZX.plotItem)
+        exporter.parameters()['width'] = 1020
+        exporter.export(final_output_file_path)
+        #Fastest Z and Y
+        fileName = systemName + "-FastestZY.png"
+        final_output_file_path = os.path.join(output_folder_path, fileName)
+        #Export the plot
+        exporter = pyqtgraph.exporters.ImageExporter(self.ui.gvFastestZY.plotItem)
+        exporter.parameters()['width'] = 1020
+        exporter.export(final_output_file_path)
         
     def startProcessing(self):
         #Start processing
@@ -147,6 +184,12 @@ class Widget(QWidget):
         )
         self.thread.finished.connect(
             lambda: self.ui.pushButtonShowResults.setText("Show results!")
+        )
+        self.thread.finished.connect(
+            lambda: self.ui.pushButtonSavePlots.setEnabled(True)
+        )
+        self.thread.finished.connect(
+            lambda: self.ui.pushButtonStartAnalysing.setEnabled(True)
         )
 
     def analyser(self):
@@ -204,7 +247,8 @@ class Widget(QWidget):
         self.ui.gvSmallNormalX.plot(self.newProcessing.listNormalSmallXFinalPositionX, 
                                     self.newProcessing.listNormalSmallXSettingTimems, 
                                     pen=None, 
-                                    symbol='o')
+                                    symbol='o',
+                                    symbolSize=8)
         #Normal Big X
         self.ui.gvBigNormalX.clear()
         intTotalMovements = len(self.newProcessing.listNormalBigXFinalPositionX)
@@ -223,7 +267,8 @@ class Widget(QWidget):
         self.ui.gvBigNormalX.plot(self.newProcessing.listNormalBigXFinalPositionX, 
                                     self.newProcessing.listNormalBigXSettingTimems, 
                                     pen=None, 
-                                    symbol='o')
+                                    symbol='o',
+                                    symbolSize=8)
         #Normal Small Y
         self.ui.gvSmallNormalY.clear()
         intTotalMovements = len(self.newProcessing.listNormalSmallYFinalPositionY)
@@ -242,7 +287,8 @@ class Widget(QWidget):
         self.ui.gvSmallNormalY.plot(self.newProcessing.listNormalSmallYFinalPositionY, 
                                     self.newProcessing.listNormalSmallYSettingTimems, 
                                     pen=None, 
-                                    symbol='o')
+                                    symbol='o',
+                                    symbolSize=8)
         #Normal Big Y
         self.ui.gvBigNormalY.clear()
         intTotalMovements = len(self.newProcessing.listNormalBigYFinalPositionY)
@@ -261,7 +307,8 @@ class Widget(QWidget):
         self.ui.gvBigNormalY.plot(self.newProcessing.listNormalBigYFinalPositionY, 
                                     self.newProcessing.listNormalBigYSettingTimems, 
                                     pen=None, 
-                                    symbol='o')
+                                    symbol='o',
+                                    symbolSize=8)
         #Fastest Small X
         self.ui.gvSmallFastestX.clear()
         intTotalMovements = len(self.newProcessing.listFastestSmallXFinalPositionX)
@@ -280,7 +327,8 @@ class Widget(QWidget):
         self.ui.gvSmallFastestX.plot(self.newProcessing.listFastestSmallXFinalPositionX, 
                                     self.newProcessing.listFastestSmallXSettingTimems, 
                                     pen=None, 
-                                    symbol='o')
+                                    symbol='o',
+                                    symbolSize=8)
         #Fastest Big X
         self.ui.gvBigFastestX.clear()
         intTotalMovements = len(self.newProcessing.listFastestBigXFinalPositionX)
@@ -299,7 +347,8 @@ class Widget(QWidget):
         self.ui.gvBigFastestX.plot(self.newProcessing.listFastestBigXFinalPositionX, 
                                     self.newProcessing.listFastestBigXSettingTimems, 
                                     pen=None, 
-                                    symbol='o')
+                                    symbol='o',
+                                    symbolSize=8)
         #Fastest Small Y
         self.ui.gvSmallFastestY.clear()
         intTotalMovements = len(self.newProcessing.listFastestSmallYFinalPositionY)
@@ -318,7 +367,8 @@ class Widget(QWidget):
         self.ui.gvSmallFastestY.plot(self.newProcessing.listFastestSmallYFinalPositionY, 
                                     self.newProcessing.listFastestSmallYSettingTimems, 
                                     pen=None, 
-                                    symbol='o')
+                                    symbol='o',
+                                    symbolSize=8)
         #Fastest Big Y
         self.ui.gvBigFastestY.clear()
         intTotalMovements = len(self.newProcessing.listFastestBigYFinalPositionY)
@@ -334,10 +384,76 @@ class Widget(QWidget):
         self.text = pg.TextItem(title, color=(0, 0, 0), fill=(255, 255, 255))
         self.ui.gvBigFastestY.addItem(self.text)
         self.text.setPos(25,3580)
-        self.ui.gvBigFastestY.plot(self.newProcessing.listNormalBigYFinalPositionY, 
-                                    self.newProcessing.listNormalBigYSettingTimems, 
+        self.ui.gvBigFastestY.plot(self.newProcessing.listFastestBigYFinalPositionY, 
+                                    self.newProcessing.listFastestBigYSettingTimems, 
                                     pen=None, 
-                                    symbol='o')
+                                    symbol='o',
+                                    symbolSize=8)
+        #Normal Z and X
+        self.ui.gvNormalZX.clear()
+        intTotalMovements = len(self.newProcessing.listNormalZTotalTimems)
+        floatMeanMoveTime = statistics.fmean(self.newProcessing.listNormalZTotalTimems)
+        floatMaxMoveTime = max(self.newProcessing.listNormalZTotalTimems)
+        title = ("Total moves: {} \n".format(intTotalMovements) +
+                              "Mean move (ms): %.2f \n" %(floatMeanMoveTime) + 
+                              "Max move (ms): %.2f" %(floatMaxMoveTime))
+        self.text = pg.TextItem(title, color=(0, 0, 0), fill=(255, 255, 255))
+        self.ui.gvNormalZX.addItem(self.text)
+        self.text.setPos(25,3580)
+        self.ui.gvNormalZX.plot(self.newProcessing.listNormalZFinalPositionX, 
+                                    self.newProcessing.listNormalZTotalTimems, 
+                                    pen=None, 
+                                    symbol='o',
+                                    symbolSize=8)
+        #Normal Z and Y
+        self.ui.gvNormalZY.clear()
+        intTotalMovements = len(self.newProcessing.listNormalZTotalTimems)
+        floatMeanMoveTime = statistics.fmean(self.newProcessing.listNormalZTotalTimems)
+        floatMaxMoveTime = max(self.newProcessing.listNormalZTotalTimems)
+        title = ("Total moves: {} \n".format(intTotalMovements) +
+                              "Mean move (ms): %.2f \n" %(floatMeanMoveTime) + 
+                              "Max move (ms): %.2f" %(floatMaxMoveTime))
+        self.text = pg.TextItem(title, color=(0, 0, 0), fill=(255, 255, 255))
+        self.ui.gvNormalZY.addItem(self.text)
+        self.text.setPos(25,3580)
+        self.ui.gvNormalZY.plot(self.newProcessing.listNormalZFinalPositionY, 
+                                    self.newProcessing.listNormalZTotalTimems, 
+                                    pen=None, 
+                                    symbol='o',
+                                    symbolSize=8)
+        #Fastest Z and X
+        self.ui.gvFastestZX.clear()
+        intTotalMovements = len(self.newProcessing.listFastestZTotalTimems)
+        print(intTotalMovements)
+        floatMeanMoveTime = statistics.fmean(self.newProcessing.listFastestZTotalTimems)
+        floatMaxMoveTime = max(self.newProcessing.listFastestZTotalTimems)
+        title = ("Total moves: {} \n".format(intTotalMovements) +
+                              "Mean move (ms): %.2f \n" %(floatMeanMoveTime) + 
+                              "Max move (ms): %.2f" %(floatMaxMoveTime))
+        self.text = pg.TextItem(title, color=(0, 0, 0), fill=(255, 255, 255))
+        self.ui.gvFastestZX.addItem(self.text)
+        self.text.setPos(25,3580)
+        self.ui.gvFastestZX.plot(self.newProcessing.listFastestZFinalPositionX, 
+                                    self.newProcessing.listFastestZTotalTimems, 
+                                    pen=None, 
+                                    symbol='o',
+                                    symbolSize=8)
+        #Fastest Z and Y
+        self.ui.gvFastestZY.clear()
+        intTotalMovements = len(self.newProcessing.listFastestZTotalTimems)
+        floatMeanMoveTime = statistics.fmean(self.newProcessing.listFastestZTotalTimems)
+        floatMaxMoveTime = max(self.newProcessing.listFastestZTotalTimems)
+        title = ("Total moves: {} \n".format(intTotalMovements) +
+                              "Mean move (ms): %.2f \n" %(floatMeanMoveTime) + 
+                              "Max move (ms): %.2f" %(floatMaxMoveTime))
+        self.text = pg.TextItem(title, color=(0, 0, 0), fill=(255, 255, 255))
+        self.ui.gvFastestZY.addItem(self.text)
+        self.text.setPos(25,3580)
+        self.ui.gvFastestZY.plot(self.newProcessing.listFastestZFinalPositionY, 
+                                    self.newProcessing.listFastestZTotalTimems, 
+                                    pen=None, 
+                                    symbol='o',
+                                    symbolSize=8)
         
     @Slot()
     def qtSlot_UpdateAnalysisResult(self):
@@ -350,6 +466,8 @@ class Widget(QWidget):
         intTotalNumbersOfMovementsFastestBigX = len(self.newProcessingForAnalyser.listFastestBigXLongSettling)
         intTotalNumbersOfMovementsFastestSmallY = len(self.newProcessingForAnalyser.listFastestSmallYLongSettling)
         intTotalNumbersOfMovementsFastestBigY = len(self.newProcessingForAnalyser.listFastestBigYLongSettling)
+        intTotalNumbersOfMovementsNormalZ = len(self.newProcessingForAnalyser.listNormalZLongTotal)
+        intTotalNumbersOfMovementsFastestZ = len(self.newProcessingForAnalyser.listFastestZLongTotal)
         #Clear the previous messages
         self.ui.textEditNormalSmallX.clear()
         self.ui.textEditNormalBigX.clear()
@@ -359,6 +477,8 @@ class Widget(QWidget):
         self.ui.textEditFastestBigX.clear()
         self.ui.textEditFastestSmallY.clear()
         self.ui.textEditFastestBigY.clear()
+        self.ui.textEditNormalZ.clear()
+        self.ui.textEditFastestZ.clear()
         #Udate
         #Normal Small X
         self.ui.textEditNormalSmallX.insertPlainText("There are {} small movements in X.\n".format(intTotalNumbersOfMovementsNormalSmallX))
@@ -432,6 +552,24 @@ class Widget(QWidget):
                                                                                                                   self.newProcessingForAnalyser.listFastestBigYLongSettling[i][2],
                                                                                                                   self.newProcessingForAnalyser.listFastestBigYLongSettling[i][3],
                                                                                                                   self.newProcessingForAnalyser.listFastestBigYLongSettling[i][4]))
+        #Normal Z
+        self.ui.textEditNormalZ.insertPlainText("There are {}  movements in Z.\n".format(intTotalNumbersOfMovementsNormalZ))
+        for i in range(intTotalNumbersOfMovementsNormalZ):
+            self.ui.textEditNormalZ.insertPlainText("Movement {}:\n".format(i))
+            self.ui.textEditNormalZ.insertPlainText("From \n ({} mm, {} mm) \n to \n({} mm, {} mm) \n it took {} ms.\n\n".format(self.newProcessingForAnalyser.listNormalZLongTotal[i][0],
+                                                                                                                  self.newProcessingForAnalyser.listNormalZLongTotal[i][1],
+                                                                                                                  self.newProcessingForAnalyser.listNormalZLongTotal[i][2],
+                                                                                                                  self.newProcessingForAnalyser.listNormalZLongTotal[i][3],
+                                                                                                                  self.newProcessingForAnalyser.listNormalZLongTotal[i][4]))
+        #Fastest Z
+        self.ui.textEditFastestZ.insertPlainText("There are {}  movements in Z.\n".format(intTotalNumbersOfMovementsFastestZ))
+        for i in range(intTotalNumbersOfMovementsFastestZ):
+            self.ui.textEditFastestZ.insertPlainText("Movement {}:\n".format(i))
+            self.ui.textEditFastestZ.insertPlainText("From \n ({} mm, {} mm) \n to \n({} mm, {} mm) \n it took {} ms.\n\n".format(self.newProcessingForAnalyser.listFastestZLongTotal[i][0],
+                                                                                                                  self.newProcessingForAnalyser.listFastestZLongTotal[i][1],
+                                                                                                                  self.newProcessingForAnalyser.listFastestZLongTotal[i][2],
+                                                                                                                  self.newProcessingForAnalyser.listFastestZLongTotal[i][3],
+                                                                                                                  self.newProcessingForAnalyser.listFastestZLongTotal[i][4]))
 
     def plotInitialiser(self):
         #Normal Small X
@@ -538,7 +676,58 @@ class Widget(QWidget):
         self.ui.gvBigFastestY.showGrid(True, True)
         self.ui.gvBigFastestY.setXRange(-99.5, 99.5)
         self.ui.gvBigFastestY.setYRange(-2, 3480)
-
+        #Normal Z and X
+        self.ui.gvNormalZX.setTitle("Normal Z movements with final X positions")
+        self.ui.gvNormalZX.setLabel(axis='left', text='Settling time (ms)')
+        self.ui.gvNormalZX.setLabel(axis='bottom', text='Final X position (mm)')
+        self.ui.gvNormalZX.showAxis('right')
+        self.ui.gvNormalZX.showAxis('top')
+        self.ui.gvNormalZX.getAxis('right').enableAutoSIPrefix(enable=False)
+        self.ui.gvNormalZX.getAxis('right').setStyle(tickLength=0, showValues=False)
+        self.ui.gvNormalZX.getAxis('top').enableAutoSIPrefix(enable=False)
+        self.ui.gvNormalZX.getAxis('top').setStyle(tickLength=0, showValues=False)
+        self.ui.gvNormalZX.showGrid(True, True)
+        self.ui.gvNormalZX.setXRange(-99.5, 99.5)
+        self.ui.gvNormalZX.setYRange(-2, 3480)
+        #Normal Z and Y
+        self.ui.gvNormalZY.setTitle("Normal Z movements with final Y positions")
+        self.ui.gvNormalZY.setLabel(axis='left', text='Settling time (ms)')
+        self.ui.gvNormalZY.setLabel(axis='bottom', text='Final Y position (mm)')
+        self.ui.gvNormalZY.showAxis('right')
+        self.ui.gvNormalZY.showAxis('top')
+        self.ui.gvNormalZY.getAxis('right').enableAutoSIPrefix(enable=False)
+        self.ui.gvNormalZY.getAxis('right').setStyle(tickLength=0, showValues=False)
+        self.ui.gvNormalZY.getAxis('top').enableAutoSIPrefix(enable=False)
+        self.ui.gvNormalZY.getAxis('top').setStyle(tickLength=0, showValues=False)
+        self.ui.gvNormalZY.showGrid(True, True)
+        self.ui.gvNormalZY.setXRange(-99.5, 99.5)
+        self.ui.gvNormalZY.setYRange(-2, 3480)
+        #Fastest Z and X
+        self.ui.gvFastestZX.setTitle("Fastest Z movements with final X positions")
+        self.ui.gvFastestZX.setLabel(axis='left', text='Settling time (ms)')
+        self.ui.gvFastestZX.setLabel(axis='bottom', text='Final X position (mm)')
+        self.ui.gvFastestZX.showAxis('right')
+        self.ui.gvFastestZX.showAxis('top')
+        self.ui.gvFastestZX.getAxis('right').enableAutoSIPrefix(enable=False)
+        self.ui.gvFastestZX.getAxis('right').setStyle(tickLength=0, showValues=False)
+        self.ui.gvFastestZX.getAxis('top').enableAutoSIPrefix(enable=False)
+        self.ui.gvFastestZX.getAxis('top').setStyle(tickLength=0, showValues=False)
+        self.ui.gvFastestZX.showGrid(True, True)
+        self.ui.gvFastestZX.setXRange(-99.5, 99.5)
+        self.ui.gvFastestZX.setYRange(-2, 3480)
+        #Fastest Z and Y
+        self.ui.gvFastestZY.setTitle("Fastest Z movements with final Y positions")
+        self.ui.gvFastestZY.setLabel(axis='left', text='Settling time (ms)')
+        self.ui.gvFastestZY.setLabel(axis='bottom', text='Final Y position (mm)')
+        self.ui.gvFastestZY.showAxis('right')
+        self.ui.gvFastestZY.showAxis('top')
+        self.ui.gvFastestZY.getAxis('right').enableAutoSIPrefix(enable=False)
+        self.ui.gvFastestZY.getAxis('right').setStyle(tickLength=0, showValues=False)
+        self.ui.gvFastestZY.getAxis('top').enableAutoSIPrefix(enable=False)
+        self.ui.gvFastestZY.getAxis('top').setStyle(tickLength=0, showValues=False)
+        self.ui.gvFastestZY.showGrid(True, True)
+        self.ui.gvFastestZY.setXRange(-99.5, 99.5)
+        self.ui.gvFastestZY.setYRange(-2, 3480)
         
 
 if __name__ == "__main__":

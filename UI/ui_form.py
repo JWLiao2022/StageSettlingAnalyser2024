@@ -209,6 +209,71 @@ class Ui_Widget(object):
         self.tabWidget.addTab(self.tabFastest, "")
         self.tab_3 = QWidget()
         self.tab_3.setObjectName(u"tab_3")
+        self.layoutWidget_4 = QWidget(self.tab_3)
+        self.layoutWidget_4.setObjectName(u"layoutWidget_4")
+        self.layoutWidget_4.setGeometry(QRect(16, 13, 1041, 711))
+        self.verticalLayout_5 = QVBoxLayout(self.layoutWidget_4)
+        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_10 = QHBoxLayout()
+        self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
+        self.gvNormalZX = PlotWidget(self.layoutWidget_4)
+        self.gvNormalZX.setObjectName(u"gvNormalZX")
+
+        self.horizontalLayout_10.addWidget(self.gvNormalZX)
+
+        self.gvNormalZY = PlotWidget(self.layoutWidget_4)
+        self.gvNormalZY.setObjectName(u"gvNormalZY")
+
+        self.horizontalLayout_10.addWidget(self.gvNormalZY)
+
+
+        self.verticalLayout_5.addLayout(self.horizontalLayout_10)
+
+        self.horizontalLayout_11 = QHBoxLayout()
+        self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
+        self.gvFastestZX = PlotWidget(self.layoutWidget_4)
+        self.gvFastestZX.setObjectName(u"gvFastestZX")
+
+        self.horizontalLayout_11.addWidget(self.gvFastestZX)
+
+        self.gvFastestZY = PlotWidget(self.layoutWidget_4)
+        self.gvFastestZY.setObjectName(u"gvFastestZY")
+
+        self.horizontalLayout_11.addWidget(self.gvFastestZY)
+
+
+        self.verticalLayout_5.addLayout(self.horizontalLayout_11)
+
+        self.groupBox_4 = QGroupBox(self.tab_3)
+        self.groupBox_4.setObjectName(u"groupBox_4")
+        self.groupBox_4.setGeometry(QRect(1080, 10, 441, 711))
+        self.layoutWidget_5 = QWidget(self.groupBox_4)
+        self.layoutWidget_5.setObjectName(u"layoutWidget_5")
+        self.layoutWidget_5.setGeometry(QRect(10, 30, 421, 661))
+        self.verticalLayout_6 = QVBoxLayout(self.layoutWidget_5)
+        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
+        self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_12 = QHBoxLayout()
+        self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
+        self.textEditNormalZ = QTextEdit(self.layoutWidget_5)
+        self.textEditNormalZ.setObjectName(u"textEditNormalZ")
+
+        self.horizontalLayout_12.addWidget(self.textEditNormalZ)
+
+
+        self.verticalLayout_6.addLayout(self.horizontalLayout_12)
+
+        self.horizontalLayout_13 = QHBoxLayout()
+        self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
+        self.textEditFastestZ = QTextEdit(self.layoutWidget_5)
+        self.textEditFastestZ.setObjectName(u"textEditFastestZ")
+
+        self.horizontalLayout_13.addWidget(self.textEditFastestZ)
+
+
+        self.verticalLayout_6.addLayout(self.horizontalLayout_13)
+
         self.tabWidget.addTab(self.tab_3, "")
         self.pushButtonShowResults = QPushButton(Widget)
         self.pushButtonShowResults.setObjectName(u"pushButtonShowResults")
@@ -230,10 +295,15 @@ class Ui_Widget(object):
         self.pushButtonStartAnalysing = QPushButton(Widget)
         self.pushButtonStartAnalysing.setObjectName(u"pushButtonStartAnalysing")
         self.pushButtonStartAnalysing.setGeometry(QRect(1130, 90, 191, 31))
+        self.label_3 = QLabel(Widget)
+        self.label_3.setObjectName(u"label_3")
+        self.label_3.setGeometry(QRect(1360, 30, 191, 81))
+        self.label_3.setPixmap(QPixmap(u"DMO logo Oct 2023 800 dpi.png"))
+        self.label_3.setScaledContents(True)
 
         self.retranslateUi(Widget)
 
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(Widget)
@@ -250,6 +320,7 @@ class Ui_Widget(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabNormal), QCoreApplication.translate("Widget", u"Normal X and Y", None))
         self.groupBox_3.setTitle(QCoreApplication.translate("Widget", u"Analysis results", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabFastest), QCoreApplication.translate("Widget", u"Fastest X and Y", None))
+        self.groupBox_4.setTitle(QCoreApplication.translate("Widget", u"Analysis results", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), QCoreApplication.translate("Widget", u"Z", None))
         self.pushButtonShowResults.setText(QCoreApplication.translate("Widget", u"Show results!", None))
         self.pushButtonSavePlots.setText(QCoreApplication.translate("Widget", u"Save plots!", None))
@@ -257,5 +328,6 @@ class Ui_Widget(object):
         self.lineEditTimeForAnalysing.setText(QCoreApplication.translate("Widget", u"2.5", None))
         self.label_2.setText(QCoreApplication.translate("Widget", u"seconds.", None))
         self.pushButtonStartAnalysing.setText(QCoreApplication.translate("Widget", u"Start analysing!", None))
+        self.label_3.setText("")
     # retranslateUi
 
